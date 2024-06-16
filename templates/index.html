@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Random Quote</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <h1 class="my-4">Random Quote</h1>
+                <div id="quote" class="blockquote">
+                    <p class="mb-0" id="quote-content">Click the button to get a quote.</p>
+                    <p class="mb-0 text-muted" id="quote-content-ru"></p>
+                    <footer class="blockquote-footer" id="quote-author"></footer>
+                </div>
+                <button id="get-quote" class="btn btn-primary mt-4">Get Quote</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#get-quote').click(function(){
+                $.getJSON('/quote', function(data) {
+                    $('#quote-content').text(data.content);
+                    $('#quote-content-ru').text(data.translated_content);
+                    $('#quote-author').text(data.author);
+                }).fail(function() {
+                    $('#quote-content').text("Error fetching quote.");
+                    $('#quote-content-ru').text("");
+                    $('#quote-author').text("");
+                });
+            });
+        });
+    </script>
+</body>
+</html>
